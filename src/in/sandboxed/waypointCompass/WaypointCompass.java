@@ -10,7 +10,6 @@ public final class WaypointCompass extends JavaPlugin {
 	public void onEnable() {
 		
 		this.getLogger().info("waypointCompass version " + this.getDescription().getVersion() + " enabled.");
-		new CompassListener(this);
 		this.locationManager = new LocationManager();
 		getCommand("wc").setExecutor(new CommandManager(this));
 		

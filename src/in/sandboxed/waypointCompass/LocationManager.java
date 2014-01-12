@@ -6,29 +6,29 @@ import org.bukkit.Location;
 
 public class LocationManager {
 
-	private static HashMap<String,Location> locationStorage;
+	private HashMap<String,Location> locationStorage;
 	
 	public LocationManager() {
 		
-		locationStorage = new HashMap<String,Location>();
+		this.locationStorage = new HashMap<String,Location>();
 		
 	}
 	
 	public void addLocation(String name, Location location) {
 		
-		locationStorage.put(name, location);
+		this.locationStorage.put(name, location);
 		
 	}
 
 	public void removeLocation(String name) {
 		
-		locationStorage.remove(name);
+		this.locationStorage.remove(name);
 		
 	}
 	
 	public boolean containsLocation(String name) {
 		
-		if(locationStorage.containsKey(name))
+		if(this.locationStorage.containsKey(name))
 			return true;
 		else
 			return false;
@@ -37,7 +37,7 @@ public class LocationManager {
 	
 	public Location getLocation(String name) {
 		
-		return locationStorage.get(name);
+		return this.locationStorage.get(name);
 		
 	}
 	
@@ -45,9 +45,9 @@ public class LocationManager {
 		
 		String toReturn = "";
 		
-		for(String s : locationStorage.keySet()) {
+		for(String s : this.locationStorage.keySet()) {
 			
-			Location location = locationStorage.get(s);
+			Location location = this.locationStorage.get(s);
 			toReturn += "\n  - " + s + " (" + location.getBlockX() + ", " + location.getBlockY() + ", " +location.getBlockZ() +")";
 			
 		}
@@ -60,7 +60,7 @@ public class LocationManager {
 		
 		if(containsLocation(name)) {
 			
-			locationStorage.remove(name);
+			this.locationStorage.remove(name);
 			return true;
 			
 		} else {
