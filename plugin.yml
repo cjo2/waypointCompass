@@ -1,0 +1,7 @@
+name: waypointCompass
+main: in.sandboxed.waypointCompass.WaypointCompass
+version: 1.0
+commands:
+  wc:
+    description: waypointCompass commands
+    usage: /wc <mark|goto|list|delete>
