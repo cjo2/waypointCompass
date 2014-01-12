@@ -4,13 +4,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class WaypointCompass extends JavaPlugin {
 
-	private LocationManager locationManager;
+	private WaypointManager waypointManager;
 	
 	@Override
 	public void onEnable() {
 		
 		this.getLogger().info("waypointCompass version " + this.getDescription().getVersion() + " enabled.");
-		this.locationManager = new LocationManager();
+		this.waypointManager = new WaypointManager();
 		getCommand("wc").setExecutor(new CommandManager(this));
 		
 	}
@@ -21,10 +21,10 @@ public final class WaypointCompass extends JavaPlugin {
 		this.getLogger().info("waypointCompass version " + this.getDescription().getVersion()+ " disabled.");
 
 	}
-
-	public LocationManager getLocationManager() {
+	
+	public WaypointManager getWaypointManager() {
 		
-		return this.locationManager;
+		return this.waypointManager;
 		
 	}
 	

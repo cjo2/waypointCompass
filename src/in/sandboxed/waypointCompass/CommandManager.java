@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.fusesource.jansi.Ansi.Color;
 
 public class CommandManager implements CommandExecutor{
 
@@ -19,72 +20,139 @@ public class CommandManager implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		
 		if(!(sender instanceof Player)) {
+			
 			sender.sendMessage("You must be a player!");
 			return false;
+			
 		}
+		
 		if(args.length<1) {
+			
 			sender.sendMessage(ChatColor.RED + "Not enough arguments!");
 			return true;
+			
 		}
 		
 		switch(args[0]) {
-		case "mark": {
-			if(args.length<2) {
-				sender.sendMessage(ChatColor.RED + "You did not name the location (/wc mark locationName)");
+		case "mark": 
+			
+			if(args.length==1) {
+				
+				sender.sendMessage(ChatColor.RED + "ERROR: Did you name the location and specify privacy? (/wc mark locationName private)");
 				break;
+				
 			}
-			this.markLocation((Player) sender, args[1], ((Player) sender).getLocation());
+						
+			if(args.length==3 && args[2].equals("private"))
+				this.markLocation((Player) sender, args[1], ((Player) sender).getLocation(), true);
+			else
+				this.markLocation((Player) sender, args[1], ((Player) sender).getLocation(), false);
+			
 			break;
-		}
-		case "goto":
+		
+		case "goto": 
+		
+			if(args.length<1) {
+				
+				sender.sendMessage(ChatColor.RED + "ERROR: Did you specify the location? (/wc goto locationName)");
+				break;
+				
+			}
+			
 			this.pointToLocation((Player) sender, args[1]);
 			break;
-		case "list":
+		
+		case "list": 
+			
 			this.getLocations((Player) sender);
 			break;
-		case "delete":
+		
+		case "delete": 
+		
 			this.deleteLocation((Player) sender, args[1]);
 			break;
+			
 		}
 		
 		
 		return true;
 	}
 	
-	private void markLocation(Player player, String name, Location location) {
+	private void markLocation(Player player, String name, Location location, boolean isPrivate) {
 		
-		this.plugin.getLocationManager().addLocation(name, location);
-		player.sendMessage(ChatColor.YELLOW + "Waypoint '" + name + "' saved!");
+		
+		if(isPrivate) {
+
+			this.plugin.getWaypointManager().addWaypoint(name, player.getName(), location, true);
+			player.sendMessage(ChatColor.YELLOW + "Waypoint '" + name + "' saved! This waypoint is private.");
+		
+		} else {
+			
+			this.plugin.getWaypointManager().addWaypoint(name, player.getName(), location, false);
+			player.sendMessage(ChatColor.YELLOW + "Waypoint '" + name + "' saved! This waypoint is public.");
+			
+		}
+				
 	}
 	
 	private void pointToLocation(Player player, String name) {
 		
-		if(!this.plugin.getLocationManager().containsLocation(name)) {
+		Waypoint waypoint;
+		
+		if(!this.plugin.getWaypointManager().containsWaypoint(name)) {
+			
 			player.sendMessage(ChatColor.RED + "Waypoint '" + name + "' does not exist.");
 			return;
+			
 		}
 		
-		player.setCompassTarget(this.plugin.getLocationManager().getLocation(name));
-		player.sendMessage(ChatColor.YELLOW + "Waypoint '" + name + "' set! Use a compass to guide you to the location.");
+		waypoint = this.plugin.getWaypointManager().getWaypoint(name);
+		
+		if(!waypoint.isPrivate()) {
+			
+			player.setCompassTarget(waypoint.getLocation());
+			player.sendMessage(ChatColor.YELLOW + "Waypoint '" + name + "' set! Use a compass to guide you to the location.");
+			
+		} else if(waypoint.getPlayer().equals(player.getName())) {
+			
+			player.setCompassTarget(waypoint.getLocation());
+			player.sendMessage(ChatColor.YELLOW + "Waypoint '" + name + "' set! Use a compass to guide you to the location.");
+			
+		} else {
+			
+			player.sendMessage(ChatColor.RED + "ERROR: Waypoint '" + name + "' is private.");
+			
+		}
+		
 		
 	}
 	
 	private void getLocations(Player player) {
 		
-		player.sendMessage(ChatColor.YELLOW + "Waypoints: " + ChatColor.AQUA + this.plugin.getLocationManager().getLocationList());
+		String list = "";
+		
+		for(String key : this.plugin.getWaypointManager().getWaypointsForPlayer(player.getName()).keySet()) {
+			
+			Waypoint current = this.plugin.getWaypointManager().getWaypoint(key);
+			list += "\n  -" + key + " (" + current.getLocation().getBlockX() + ", " + current.getLocation().getBlockY() + ", " + current.getLocation().getBlockZ() + ")";
+			
+		}
+		
+		player.sendMessage(ChatColor.YELLOW + "Waypoints: " + ChatColor.AQUA + list);
 		
 	}
 	
 	private void deleteLocation(Player player, String name) {
 		
-		if(this.plugin.getLocationManager().deleteLocation(name)) {
+		if(this.plugin.getWaypointManager().removeWaypoint(name, player.getName())) {
 			
-			player.sendMessage(ChatColor.RED + "Location '" + name + "' deleted!");
+			player.sendMessage(ChatColor.YELLOW + "Location '" + name + "' deleted!");
 			
 		} else {
 			
-			player.sendMessage(ChatColor.RED + "Location could not be deleted!");
+			player.sendMessage(ChatColor.RED + "ERROR: Location could not be deleted!");
 			
 		}
 		
