@@ -10,6 +10,15 @@ Commands
 * wc goto {name}
 * wc list
 
+In progress
+---------------
+* Adding persistent data storage (mySQL)
+
 To do
 ---------------
-* Add persistent data storage (probably SQLite)
+* Choose more appropriate data types
+
+Links
+---------------
+* http://dl.bukkit.org/
+* http://jd.bukkit.org/rb/doxygen/ (outdated version, but essential methods are here)
