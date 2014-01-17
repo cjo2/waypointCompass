@@ -31,7 +31,7 @@ public class CommandManager implements CommandExecutor{
 		if(args.length<1) {
 			
 			sender.sendMessage(ChatColor.RED + "Not enough arguments!");
-			return true;
+			return false;
 			
 		}
 		
@@ -136,7 +136,7 @@ public class CommandManager implements CommandExecutor{
 		for(String key : this.plugin.getWaypointManager().getWaypointsForPlayer(player.getName()).keySet()) {
 			
 			Waypoint current = this.plugin.getWaypointManager().getWaypoint(key);
-			list += "\n  -" + key + " (" + current.getLocation().getBlockX() + ", " + current.getLocation().getBlockY() + ", " + current.getLocation().getBlockZ() + ")";
+			list += "\n  - " + key + " (" + current.getLocation().getBlockX() + ", " + current.getLocation().getBlockY() + ", " + current.getLocation().getBlockZ() + ")";
 			
 		}
 		
