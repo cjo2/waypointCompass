@@ -17,6 +17,7 @@ in progress
 to do
 ---------------
 * Choose more appropriate data types
+* Make CommandManager.java easier to read
 
 links
 ---------------
