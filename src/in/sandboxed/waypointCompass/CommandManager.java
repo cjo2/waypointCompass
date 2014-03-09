@@ -77,6 +77,11 @@ public class CommandManager implements CommandExecutor{
 		case "broadcast":
 			
 			this.broadcast(((Player) sender));
+			
+		default:
+			
+			// Invalid command
+			return false;
 	
 		}
 		

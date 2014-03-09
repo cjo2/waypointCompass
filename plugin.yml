@@ -4,4 +4,4 @@ version: 1.0
 commands:
   wc:
     description: waypointCompass commands
-    usage: /wc <mark|goto|list|delete>
+    usage: /wc <mark|goto|list|delete|broadcast>
