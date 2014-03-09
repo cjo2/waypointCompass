@@ -77,6 +77,7 @@ public class CommandManager implements CommandExecutor{
 		case "broadcast":
 			
 			this.broadcast(((Player) sender));
+			break;
 			
 		default:
 			
@@ -97,7 +98,7 @@ public class CommandManager implements CommandExecutor{
 		int y = playerLocation.getBlockY() + 1;
 		int z = playerLocation.getBlockZ();
 		
-		this.plugin.getServer().broadcastMessage(player.getName() + " is at " + x + ", " + y + "," + z);
+		this.plugin.getServer().broadcastMessage(ChatColor.YELLOW + player.getName() + " is at " + x + ", " + y + ", " + z);
 		
 	}
 	
