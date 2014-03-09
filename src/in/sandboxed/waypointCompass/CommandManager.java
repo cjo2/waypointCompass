@@ -74,10 +74,26 @@ public class CommandManager implements CommandExecutor{
 			this.deleteLocation((Player) sender, args[1]);
 			break;
 			
+		case "broadcast":
+			
+			this.broadcast(((Player) sender));
+	
 		}
 		
 		
 		return true;
+	}
+	
+	private void broadcast(Player player) {
+		
+		Location playerLocation = player.getLocation();
+		int x = playerLocation.getBlockX();
+		// Add 1 since getBlock gets the block at player's feet
+		int y = playerLocation.getBlockY() + 1;
+		int z = playerLocation.getBlockZ();
+		
+		this.plugin.getServer().broadcastMessage(player.getName() + " is at " + x + ", " + y + "," + z);
+		
 	}
 	
 	private void markLocation(Player player, String name, Location location, boolean isPrivate) {

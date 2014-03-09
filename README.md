@@ -9,6 +9,7 @@ commands
 * wc remove {name}
 * wc goto {name}
 * wc list
+* wc broadcast
 
 in progress
 ---------------
