@@ -1,7 +1,7 @@
 waypointCompass
 ===============
 
-A waypoint manager for Bukkit servers. I built this to remedy the lack of minimap mods for the 1.7.4 version of Minecraft.
+A waypoint manager for Bukkit servers. I built this to remedy the lack of minimap mods for the 1.7.4 version of Minecraft. Users could save location information, announce their current location, and point their in-game compass towards a saved location.
 
 commands
 ---------------
